@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  opencv:
+    build: ./opencv-app
+    networks:
+      - app-net
+    depends_on:
+      - webserver
+    volumes:
+      - ./test.mp4:/app/test.mp4  
+      - ./processed:/app/processed
+
+  webserver:
+    build: ./webserver
+    ports:
+      - "5002:5000"
+    networks:
+      - app-net
+    volumes:
+      - ./webserver/static:/app/static  
+
+networks:
+  app-net:
+    driver: bridge
